@@ -26,16 +26,19 @@ public class CartItem extends CartItemBase{
 	
 	@Override
 	public String readItemQuantity() {
+		assertElementPresent(itemQuantity);
 		return itemQuantity.getText();
 	}
 
 	@Override
 	public String readItemName() {
+		assertElementPresent(itemName);
 		return itemName.getText();
 	}
 
 	@Override
 	public String readItemPrice() {
+		assertElementPresent(itemPrice);
 		return itemPrice.getText();
 	}
 }

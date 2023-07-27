@@ -11,6 +11,7 @@ import com.saucedemo.gui.pages.common.HomePageBase;
 import com.saucedemo.gui.pages.common.ProductsPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 
 @DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = HomePageBase.class)
 public class HomePage extends HomePageBase {
@@ -19,6 +20,7 @@ public class HomePage extends HomePageBase {
 	
 	 public HomePage(WebDriver driver) {
 		super(driver);
+		setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
 		setUiLoadedMarker(txtPassword);
 	}
 
@@ -34,8 +36,10 @@ public class HomePage extends HomePageBase {
 	@Override
 	public ProductsPageBase performLogin(String username, String password) {
 		LOGGER.info("Entering UserName : " + username);
+		assertElementPresent(txtUserName);
 		txtUserName.type(username);
 		LOGGER.info("Entering Password : " + password);
+		assertElementPresent(txtPassword);
 		txtPassword.type(password);
 		btnLogin.click();
 		return initPage(getDriver(), ProductsPageBase.class);

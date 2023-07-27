@@ -18,6 +18,6 @@ public class CheckoutOverviewPage extends AbstractUIObject {
 	public OrderConfirmationPage clickFinish() {
 		btnFinish.assertElementPresent();
 		btnFinish.click();
-		return new OrderConfirmationPage(driver);
+		return new OrderConfirmationPage(getDriver());
 	}
 }

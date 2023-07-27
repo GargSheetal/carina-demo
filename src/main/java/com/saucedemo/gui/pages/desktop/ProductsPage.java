@@ -61,32 +61,6 @@ public class ProductsPage extends ProductsPageBase {
 		}
 		throw new RuntimeException("Unable to open product : " + product);
 	}
-
-//	@Override
-//	public void verifyAllLinks() {
-//		System.out.println("allLinks: " + allLinks.size());
-//		for(ExtendedWebElement link: allLinks) {
-//		//	LOGGER.info(link.getText());
-//			String linkText = link.getAttribute("href");
-//			System.out.println(linkText);
-//			checkLink(linkText);
-//		}
-//	}
-//	
-//	public void checkLink(String linkHref) {
-//		try {
-//			URL url = new URL(linkHref);
-//			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-//			int responseCode = connection.getResponseCode();
-//			if(responseCode == HttpURLConnection.HTTP_OK) {
-//				LOGGER.info(linkHref + " is Working");
-//			} else {
-//				LOGGER.info(linkHref + " is not Working (HTTP status code : " + responseCode + ")");
-//			}
-//		} catch(IOException e) {
-//			System.out.println(linkHref + " - Not Working (IOException)");
-//		}
-//	}
 	
 	@Override
 	public void addProductToCart(String product) {
@@ -101,9 +75,13 @@ public class ProductsPage extends ProductsPageBase {
 	
 	@Override
 	public void selectSortOrder(String text) {
-		System.out.println(sortOrder.getSelectedValue());
+		LOGGER.info(sortOrder.getSelectedValue());
 		sortOrder.select(text);
-		System.out.println(sortOrder.getSelectedValue());
+		LOGGER.info(sortOrder.getSelectedValue());
+	}
+	
+	public int getProductsLinkSize() {
+		return productsLink.size();
 	}
 	
 	@Override

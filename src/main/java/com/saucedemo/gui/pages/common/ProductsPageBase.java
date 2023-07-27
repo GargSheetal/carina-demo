@@ -21,6 +21,8 @@ public abstract class ProductsPageBase  extends AbstractPage{
 	
 	public abstract void selectSortOrder(String text);
 	
+	public abstract int getProductsLinkSize();
+	
 	public abstract void verifyProductList();
 	
 }

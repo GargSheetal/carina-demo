@@ -38,23 +38,25 @@ public class HeaderMenu extends HeaderMenuBase {
 	
 	@Override
 	public HomePage clickLogout() {
-		LOGGER.info("Clicking Burger Menu");
+		assertElementPresent(btnBurgerMenu);
 		btnBurgerMenu.click();
+		assertElementPresent(linkLogout);
 		linkLogout.hover();
 		LOGGER.info("Clicking Logout link");
 		linkLogout.click();
-		return new HomePage(driver);
+		return new HomePage(getDriver());
 	}
 
 	@Override
 	public CartPage selectCart() {
 		linkCart.assertElementPresent();
 		linkCart.click();
-		return new CartPage(driver);
+		return new CartPage(getDriver());
 	}
 	
 	@Override
 	public String readCartSize() {
+		assertElementPresent(cartSize);
 		return cartSize.getText();
 	}
 }

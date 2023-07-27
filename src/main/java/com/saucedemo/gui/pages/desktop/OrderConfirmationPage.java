@@ -9,15 +9,15 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 public class OrderConfirmationPage extends AbstractUIObject{
 
 	@FindBy(id = "back-to-products")
-	private ExtendedWebElement btnBackHome;
+	private ExtendedWebElement btnBackToHome;
 	
 	public OrderConfirmationPage(WebDriver driver) {
 		super(driver);
 	}
 
 	public ProductsPage clickBackHome() {
-		btnBackHome.assertElementPresent();
-		btnBackHome.click();
-		return new ProductsPage(driver);
+		btnBackToHome.assertElementPresent();
+		btnBackToHome.click();
+		return new ProductsPage(getDriver());
 	}
 }

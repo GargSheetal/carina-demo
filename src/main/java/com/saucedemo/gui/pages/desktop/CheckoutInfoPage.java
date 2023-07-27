@@ -25,14 +25,17 @@ public class CheckoutInfoPage extends AbstractUIObject {
 	}
 	
 	public void setFirstName(String firstName) {
+		assertElementPresent(txtFirstName);
 		txtFirstName.type(firstName);
 	}
 	
 	public void setLastName(String lastName) {
+		assertElementPresent(txtLastName);
 		txtLastName.type(lastName);
 	}
 	
 	public void setZipCode(String zipcode) {
+		assertElementPresent(txtZipCode);
 		txtZipCode.type(zipcode);
 	}
 	

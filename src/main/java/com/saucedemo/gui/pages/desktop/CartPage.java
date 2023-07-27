@@ -33,24 +33,12 @@ public class CartPage extends CartPageBase {
 		return items;
 	}
 	
+	@Override
 	public CheckoutInfoPage clickCheckout() {
+		assertElementPresent(btnCheckout);
 		btnCheckout.click();
-		return new CheckoutInfoPage(driver);
+		return new CheckoutInfoPage(getDriver());
 	}
 	
-//	@Override
-//	public void validateCart() {
-//		for(ProductItem item: items) {
-//			String quantity = readItemQuantity();
-//			String itemName = readItemName();
-//			String price = readItemPrice();
-//			SoftAssert softAssert = new SoftAssert();
-//			softAssert.assertEquals(itemName, "Sauce Labs Backpack", "Invalid Item name!");
-//			softAssert.assertEquals(quantity, "1", "Invalid Item quantity!");
-//			softAssert.assertEquals(price, "$29.99", "Invalid Item price!");
-//			softAssert.assertAll();
-//			System.out.println("Item Details : " + quantity + " | " + itemName + " | " + price);
-//		}
-//	}
 
 }
