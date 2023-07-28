@@ -3,13 +3,13 @@ package com.saucedemo.gui.pages.desktop;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import com.saucedemo.gui.pages.common.ItemInfoPageBase;
+import com.saucedemo.gui.pages.common.ProductPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 
-@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = ItemInfoPageBase.class)
-public class ItemInfoPage extends ItemInfoPageBase{
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = ProductPageBase.class)
+public class ProductPage extends ProductPageBase{
 
 	@FindBy(css = ".inventory_details_name.large_size")
     private ExtendedWebElement itemName;
@@ -23,7 +23,7 @@ public class ItemInfoPage extends ItemInfoPageBase{
 	@FindBy(xpath = "//button[text()='Add to cart']")
     private ExtendedWebElement btnAddToCart;
 	
-	public ItemInfoPage(WebDriver driver) {
+	public ProductPage(WebDriver driver) {
 		super(driver);
 		setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
 		setUiLoadedMarker(itemName);

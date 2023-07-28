@@ -4,7 +4,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 
 import com.saucedemo.gui.pages.desktop.CartPage;
-import com.saucedemo.gui.pages.desktop.HomePage;
+import com.saucedemo.gui.pages.desktop.LoginPage;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 
 public abstract class HeaderMenuBase extends AbstractUIObject {
@@ -17,7 +17,7 @@ public abstract class HeaderMenuBase extends AbstractUIObject {
 		super(driver);
 	}
 
-	public abstract HomePage clickLogout();
+	public abstract LoginPage clickLogout();
 	 
 	public abstract CartPage selectCart();
 	

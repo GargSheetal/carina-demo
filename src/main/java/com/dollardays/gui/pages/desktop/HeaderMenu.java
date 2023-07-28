@@ -52,6 +52,10 @@ public class HeaderMenu extends HeaderMenuBase{
 	@FindBy(id = "ctl00_ddiPageHeader_liViewCartDesktop")
 	private ExtendedWebElement cartCount;
 	
+	@FindBy(xpath = "//span[@class='remove-item']")
+	private ExtendedWebElement btnRemoveItem;
+	
+	
 	public HeaderMenu(WebDriver driver, SearchContext searchContext) {
 		super(driver, searchContext);
 	}
@@ -113,5 +117,15 @@ public class HeaderMenu extends HeaderMenuBase{
 	public String getCartCount() {
 		cartCount.assertElementPresent();
 		return cartCount.getText();
+	}
+	
+	public void hoverCartLink() {
+		linkCart.assertElementPresent();
+		linkCart.hover();
+	}
+	
+	public void removeItemFromCart() {
+		assertElementPresent(btnRemoveItem);
+		btnRemoveItem.clickByJs();
 	}
 }

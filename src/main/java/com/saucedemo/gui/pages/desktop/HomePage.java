@@ -1,14 +1,17 @@
 package com.saucedemo.gui.pages.desktop;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
+import com.saucedemo.gui.pages.common.ProductPageBase;
 import com.saucedemo.gui.pages.common.HomePageBase;
-import com.saucedemo.gui.pages.common.ProductsPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
@@ -17,32 +20,81 @@ import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 public class HomePage extends HomePageBase {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-	
-	 public HomePage(WebDriver driver) {
+
+	public HomePage(WebDriver driver) {
 		super(driver);
 		setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
-		setUiLoadedMarker(txtPassword);
+		setUiLoadedMarker(productsTitle);
 	}
+	
+	@FindBy(css = ".primary_header")
+	private HeaderMenu headerMenu;
+	
+	@FindBy(css = ".title")
+	private ExtendedWebElement productsTitle;
 
-	@FindBy(id = "user-name")
-	private ExtendedWebElement txtUserName;
+	@FindBy(xpath = "//div[@class='inventory_item_name']")
+	private List<ExtendedWebElement> productsLink;
 	
-	@FindBy(id = "password")
-	private ExtendedWebElement txtPassword;
+	@FindBy(xpath = "//a")
+	private List<ExtendedWebElement> allLinks;
 	
-	@FindBy(id = "login-button")
-	private ExtendedWebElement btnLogin;
+	@FindBy(xpath = "//button[text()='Add to cart']")
+	private ExtendedWebElement btnAddToCart;
+	
+	@FindBy(css = ".product_sort_container")
+	private ExtendedWebElement sortOrder;
 	
 	@Override
-	public ProductsPageBase performLogin(String username, String password) {
-		LOGGER.info("Entering UserName : " + username);
-		assertElementPresent(txtUserName);
-		txtUserName.type(username);
-		LOGGER.info("Entering Password : " + password);
-		assertElementPresent(txtPassword);
-		txtPassword.type(password);
-		btnLogin.click();
-		return initPage(getDriver(), ProductsPageBase.class);
+	public HeaderMenu getHeaderMenu() {
+		return headerMenu;
+	}
+
+	@Override
+	public ProductPageBase selectProduct(String product) {
+		for(ExtendedWebElement link: productsLink) {
+			LOGGER.info("Selecting product : " + product);
+			String currentProduct = link.getText();
+			if(product.equalsIgnoreCase(currentProduct)) {
+				link.click();
+				return initPage(getDriver(), ProductPageBase.class);
+			}
+		}
+		throw new RuntimeException("Unable to open product : " + product);
 	}
 	
+	@Override
+	public void addProductToCart(String product) {
+		for(ExtendedWebElement link: productsLink) {
+			LOGGER.info("Selecting product : " + product);
+			String currentProduct = link.getText();
+			if(product.equalsIgnoreCase(currentProduct)) {
+				btnAddToCart.click();
+			}
+		}
+	}
+	
+	@Override
+	public void selectSortOrder(String text) {
+		LOGGER.info("Sorting Order before : " + sortOrder.getSelectedValue());
+		sortOrder.select(text);
+		String order = sortOrder.getSelectedValue();
+		LOGGER.info("Sorting Order after : " + order);
+		Assert.assertTrue(order.equalsIgnoreCase("Price (low to high)"), "Invalid Sort Order!");
+	}
+
+	@Override
+	public void verifyProductList() {
+		for(int i = 0; i<productsLink.size(); i++) {
+			String product = productsLink.get(i).getText();
+			LOGGER.info("(" + (i + 1) + ") " + product);
+			SoftAssert softAssert = new SoftAssert();
+			softAssert.assertEquals(productsLink.get(0).getText(), "Sauce Labs Onesie", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(1).getText(), "Sauce Labs Bike Light", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(2).getText(), "Sauce Labs Bolt T-Shirt", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(3).getText(), "Test.allTheThings() T-Shirt (Red)", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(4).getText(), "Sauce Labs Backpack", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(5).getText(), "Sauce Labs Fleece Jacket", "Invalid product!");
+		}
+	}
 }

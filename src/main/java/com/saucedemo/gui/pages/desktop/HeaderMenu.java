@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.saucedemo.gui.pages.common.HomePageBase;
+import com.saucedemo.gui.pages.common.LoginPageBase;
 import com.saucedemo.gui.pages.common.CartPageBase;
 import com.saucedemo.gui.pages.common.HeaderMenuBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
@@ -37,14 +37,14 @@ public class HeaderMenu extends HeaderMenuBase {
 	private ExtendedWebElement cartSize;
 	
 	@Override
-	public HomePage clickLogout() {
+	public LoginPage clickLogout() {
 		assertElementPresent(btnBurgerMenu);
 		btnBurgerMenu.click();
 		assertElementPresent(linkLogout);
 		linkLogout.hover();
 		LOGGER.info("Clicking Logout link");
 		linkLogout.click();
-		return new HomePage(getDriver());
+		return new LoginPage(getDriver());
 	}
 
 	@Override

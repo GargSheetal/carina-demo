@@ -9,15 +9,24 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 public class OrderConfirmationPage extends AbstractUIObject{
 
 	@FindBy(id = "back-to-products")
-	private ExtendedWebElement btnBackToHome;
+	private ExtendedWebElement btnBackHome;
+	
+	@FindBy(xpath = "//h2[text()='Thank you for your order!']")
+	private ExtendedWebElement txtOrderConfirmation;
 	
 	public OrderConfirmationPage(WebDriver driver) {
 		super(driver);
 	}
 
-	public ProductsPage clickBackHome() {
-		btnBackToHome.assertElementPresent();
-		btnBackToHome.click();
-		return new ProductsPage(getDriver());
+	public HomePage clickBackHome() {
+		btnBackHome.assertElementPresent();
+		btnBackHome.click();
+		return new HomePage(getDriver());
+	}
+	
+	public String verifyOrderConfirmationText() {
+		assertElementPresent(txtOrderConfirmation);
+		String confirmationText = txtOrderConfirmation.getText();
+		return confirmationText;
 	}
 }

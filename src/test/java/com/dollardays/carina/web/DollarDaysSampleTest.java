@@ -27,8 +27,8 @@ public class DollarDaysSampleTest implements IAbstractTest {
 		HeaderMenu headerMenu = homePage.getHeaderMenu();
 		headerMenu.clickDropDownSignIn();
 		LoginPage loginPage = headerMenu.clickSignInLink();
-		loginPage.setUsername("kanhakuapoojan@gmail.com");
-		loginPage.setPassword("laddoosingh");
+		loginPage.setUsername("maryjane123@gmail.com");
+		loginPage.setPassword("maryjane");
 		homePage = loginPage.clickSignIn();
 		homePage.assertPageOpened();
 		headerMenu.clickDropDownSignIn();
@@ -97,6 +97,8 @@ public class DollarDaysSampleTest implements IAbstractTest {
 			softAssert.assertEquals(unitsPerCase, "24", "Invalid Units per case!");
 			softAssert.assertEquals(quantity, "1", "Invalid Quantity!");
 		} finally {
+			headerMenu.hoverCartLink();
+			headerMenu.removeItemFromCart();
 			headerMenu.clickDropDownSignIn();
 			headerMenu.clickSignOut();
 		}

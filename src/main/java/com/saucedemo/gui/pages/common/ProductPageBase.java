@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver;
 
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 
-public abstract class ItemInfoPageBase extends AbstractPage {
+public abstract class ProductPageBase extends AbstractPage {
 
-	protected ItemInfoPageBase(WebDriver driver) {
+	protected ProductPageBase(WebDriver driver) {
 		super(driver);
 	}
 
