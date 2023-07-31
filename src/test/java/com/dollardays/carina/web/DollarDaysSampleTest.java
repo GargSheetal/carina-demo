@@ -27,9 +27,7 @@ public class DollarDaysSampleTest implements IAbstractTest {
 		HeaderMenu headerMenu = homePage.getHeaderMenu();
 		headerMenu.clickDropDownSignIn();
 		LoginPage loginPage = headerMenu.clickSignInLink();
-		loginPage.setUsername("maryjane123@gmail.com");
-		loginPage.setPassword("maryjane");
-		homePage = loginPage.clickSignIn();
+		homePage = loginPage.performLogin();
 		homePage.assertPageOpened();
 		headerMenu.clickDropDownSignIn();
 		headerMenu.clickSignOut();
@@ -69,9 +67,7 @@ public class DollarDaysSampleTest implements IAbstractTest {
 		HeaderMenu headerMenu = homePage.getHeaderMenu();
 		headerMenu.clickDropDownSignIn();
 		LoginPage loginPage = headerMenu.clickSignInLink();
-		loginPage.setUsername("kanhakuapoojan@gmail.com");
-		loginPage.setPassword("laddoosingh");
-		homePage = loginPage.clickSignIn();
+		homePage = loginPage.performLogin();
 		homePage.assertPageOpened();
 		try {
 			headerMenu.clickBurgerMenu();

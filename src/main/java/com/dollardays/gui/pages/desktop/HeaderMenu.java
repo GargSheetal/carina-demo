@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,29 +22,28 @@ public class HeaderMenu extends HeaderMenuBase{
 	@FindBy(css = "a[role='button'] i[class='fa']")
 	private ExtendedWebElement dropdownSignIn;
 	
-	@FindBy(xpath = "//a[text()=' Sign In']")
+	@FindBy(xpath = ".//a[text()=' Sign In']")
 	private ExtendedWebElement linkSignIn;
 	
-	@FindBy(xpath = "//a[text()='Create Account']")
+	@FindBy(xpath = ".//a[text()='Create Account']")
 	private ExtendedWebElement linkCreateAccount;
 	
-	@FindBy(xpath = "//a[text()='Sign Out']")
+	@FindBy(xpath = ".//a[text()='Sign Out']")
 	private ExtendedWebElement linkSignOut;
 	
 	@FindBy(id = "sm_menu_ham")
 	private ExtendedWebElement burgerMenu;
 	
-	@FindBy(xpath = "//li[@class='hasChild']//a[text()='Backpacks']")
+	@FindBy(xpath = ".//li[@class='hasChild']//a[text()='Backpacks']")
 	private ExtendedWebElement linkBackpacks;
 	
-	@FindBy(xpath = "//a[text()='15\" or Smaller Backpacks']")
+	@FindBy(xpath = ".//a[text()='15\" or Smaller Backpacks']")
 	private ExtendedWebElement smallBackpacks;
 	
-	@FindBy(xpath = "//div[@class='box-product']")
+	@FindBy(xpath = "/./div[@class='box-product']")
 	private List<ExtendedWebElement> listBackpacks;
 	
-	@FindBy(xpath = "//input[contains(@value,'Add to Cart')]")
-//	@FindBy(css = "input[class='btn btn-quick-view jqatc fsig']")
+	@FindBys({ @FindBy(xpath = ".//input[contains(@value,'Add to Cart')]"), @FindBy(css = "input[class='btn btn-quick-view jqatc fsig']") })
 	private ExtendedWebElement btnAddToCart;
 
 	@FindBy(css = ".cart.dropdown.divcart")

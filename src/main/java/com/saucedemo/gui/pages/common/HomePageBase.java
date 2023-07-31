@@ -1,8 +1,11 @@
 package com.saucedemo.gui.pages.common;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 
 import com.saucedemo.gui.pages.desktop.HeaderMenu;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 
 public abstract class HomePageBase  extends AbstractPage{
@@ -17,8 +20,9 @@ public abstract class HomePageBase  extends AbstractPage{
 	
 	public abstract void addProductToCart(String product);
 	
-	public abstract void selectSortOrder(String text);
+	public abstract String selectSortOrder(String text);
 	
-	public abstract void verifyProductList();
+	public abstract List<ExtendedWebElement> getProductsLink();
+
 	
 }

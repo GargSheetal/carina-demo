@@ -1,6 +1,10 @@
 package com.dollardays.gui.pages.desktop;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -28,21 +32,45 @@ public class LoginPage extends AbstractUIObject {
 		super(driver);
 	}
 
-	public void setUsername(String username) {
-		assertElementPresent(txtUsername);
+	public HomePageBase performLogin() {
+		Properties prop = new Properties();
+		try {
+			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
+			prop.load(inputStream);
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String username = prop.getProperty("username_dollardays");
+        String password = prop.getProperty("password_dollardays");
+        assertElementPresent(txtUsername);
 		LOGGER.info("Entered username : " + username);
 		txtUsername.type(username);
-	}
-	
-	public void setPassword(String password) {
+		
 		assertElementPresent(txtPassword);
 		LOGGER.info("Entered password : " + password);
 		txtPassword.type(password);
-	}
-	
-	public HomePageBase clickSignIn() {
 		assertElementPresent(btnSignIn);
 		btnSignIn.click();
 		return new HomePage(getDriver());
 	}
+
+//	public void setUsername(String username) {
+//		assertElementPresent(txtUsername);
+//		LOGGER.info("Entered username : " + username);
+//		txtUsername.type(username);
+//	}
+//	
+//	public void setPassword(String password) {
+//		assertElementPresent(txtPassword);
+//		LOGGER.info("Entered password : " + password);
+//		txtPassword.type(password);
+//	}
+//	
+//	public HomePageBase clickSignIn() {
+//		assertElementPresent(btnSignIn);
+//		btnSignIn.click();
+//		return new HomePage(getDriver());
+//	}
+	
 }

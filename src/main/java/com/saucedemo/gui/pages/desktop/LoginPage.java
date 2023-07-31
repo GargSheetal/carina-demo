@@ -1,6 +1,10 @@
 package com.saucedemo.gui.pages.desktop;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -34,13 +38,23 @@ public class LoginPage extends LoginPageBase {
 	private ExtendedWebElement btnLogin;
 	
 	@Override
-	public HomePageBase performLogin(String username, String password) {
-		LOGGER.info("Entering UserName : " + username);
+	public HomePageBase performLogin() {
+		Properties prop = new Properties();
+		try {
+			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
+			prop.load(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String uname = prop.getProperty("username_saucedemo");
+		String pwd = prop.getProperty("password_saucedemo");
+		LOGGER.info("Entering UserName : " + uname);
 		assertElementPresent(txtUserName);
-		txtUserName.type(username);
-		LOGGER.info("Entering Password : " + password);
+		txtUserName.type(uname);
+		LOGGER.info("Entering Password : " + pwd);
 		assertElementPresent(txtPassword);
-		txtPassword.type(password);
+		txtPassword.type(pwd);
 		btnLogin.click();
 		return initPage(getDriver(), HomePageBase.class);
 	}

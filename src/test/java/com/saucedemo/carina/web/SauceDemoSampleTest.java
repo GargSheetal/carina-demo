@@ -1,6 +1,9 @@
 package com.saucedemo.carina.web;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import com.saucedemo.gui.pages.desktop.HomePage;
 import com.saucedemo.gui.pages.desktop.CartItem;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 
 public class SauceDemoSampleTest implements IAbstractTest {
 	
@@ -31,7 +35,7 @@ public class SauceDemoSampleTest implements IAbstractTest {
 		loginPage.open();
 		// Asserting home page is opened
 		loginPage.assertPageOpened();
-		HomePageBase homePage = loginPage.performLogin("standard_user", "secret_sauce");
+		HomePageBase homePage = loginPage.performLogin();
 		// Asserting products page is opened
 		homePage.assertPageOpened();
 		
@@ -47,7 +51,7 @@ public class SauceDemoSampleTest implements IAbstractTest {
 		loginPage.open();
 		// Asserting home page is opened
 		loginPage.assertPageOpened();
-		HomePageBase homePage = loginPage.performLogin("standard_user", "secret_sauce");
+		HomePageBase homePage = loginPage.performLogin();
 		// Asserting products page is opened
 		homePage.assertPageOpened();
 		
@@ -68,7 +72,7 @@ public class SauceDemoSampleTest implements IAbstractTest {
 		loginPage.open();
 		// Asserting home page is opened
 		loginPage.assertPageOpened();
-		HomePageBase homePage = loginPage.performLogin("standard_user", "secret_sauce");
+		HomePageBase homePage = loginPage.performLogin();
 		// Asserting products page is opened
 		homePage.assertPageOpened();
 		homePage.addProductToCart("Sauce Labs Backpack");
@@ -98,11 +102,25 @@ public class SauceDemoSampleTest implements IAbstractTest {
 		loginPage.open();
 		// Asserting home page is opened
 		loginPage.assertPageOpened();
-		HomePageBase homePage = loginPage.performLogin("standard_user", "secret_sauce");
+		HomePageBase homePage = loginPage.performLogin();
 		// Asserting products page is opened
 		homePage.assertPageOpened();
-		homePage.selectSortOrder("Price (low to high)");
-		homePage.verifyProductList();
+		String order = homePage.selectSortOrder("Price (low to high)");
+		Assert.assertTrue(order.equalsIgnoreCase("Price (low to high)"), "Invalid Sort Order!");
+		
+		List<ExtendedWebElement> productsLink = homePage.getProductsLink();
+		for(int i = 0; i<productsLink.size(); i++) {
+			String product = productsLink.get(i).getText();
+			LOGGER.info("(" + (i + 1) + ") " + product);
+			SoftAssert softAssert = new SoftAssert();
+			softAssert.assertEquals(productsLink.get(0).getText(), "Sauce Labs Onesie", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(1).getText(), "Sauce Labs Bike Light", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(2).getText(), "Sauce Labs Bolt T-Shirt", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(3).getText(), "Test.allTheThings() T-Shirt (Red)", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(4).getText(), "Sauce Labs Backpack", "Invalid product!");
+			softAssert.assertEquals(productsLink.get(5).getText(), "Sauce Labs Fleece Jacket", "Invalid product!");
+			softAssert.assertAll();
+		}
 	}
 	
 	@Test()
@@ -112,7 +130,7 @@ public class SauceDemoSampleTest implements IAbstractTest {
 		loginPage.open();
 		// Asserting home page is opened
 		loginPage.assertPageOpened();
-		HomePageBase homePage = loginPage.performLogin("standard_user", "secret_sauce");
+		HomePageBase homePage = loginPage.performLogin();
 		// Asserting products page is opened
 		homePage.assertPageOpened();
 		ProductPageBase productPage = homePage.selectProduct("Sauce Labs Bolt T-Shirt");
