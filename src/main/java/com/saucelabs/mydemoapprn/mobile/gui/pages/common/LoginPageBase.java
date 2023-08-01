@@ -10,9 +10,11 @@ public abstract class LoginPageBase extends AbstractPage {
 		super(driver);
 	}
 
-	public abstract String getLoginMessage();
+	public abstract String getPageTitle();
+	
+	public abstract String getUserLockedOutMsg();
 	
 	public abstract HomePageBase performLogin();
 	
-
+	public abstract HomePageBase loginDataDriven(String username, String password);
 }

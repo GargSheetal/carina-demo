@@ -32,7 +32,7 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 	@ExtendedFindBy(accessibilityId = "cart badge")
 	private ExtendedWebElement cartIcon;
 	
-	@FindBy(xpath = "//android.widget.TextView[@index='1']")
+	@FindBy(xpath = "//android.widget.TextView[@index='0']")
 	private ExtendedWebElement cartSize;
 	
 	@FindBy(xpath = "//android.widget.TextView[@content-desc='store item text']")
@@ -43,6 +43,10 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 		super(driver);
 		setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
 		setUiLoadedMarker(title);
+	}
+	
+	public String getPageTitle() {
+		return title.getText();
 	}
 
 	@Override

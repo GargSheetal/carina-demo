@@ -18,14 +18,17 @@ public class MenuPage extends MenuPageBase implements IMobileUtils {
 	@FindBy(xpath = "//android.view.ViewGroup[@index='9']")
 	private ExtendedWebElement logout;
 	
-	@FindBy(id = "android:id/message")
-	private ExtendedWebElement logoutMsg;
+//	@FindBy(id = "android:id/message")
+//	private ExtendedWebElement logoutMsg;
 	
 	@FindBy(id = "android:id/button1")
 	private ExtendedWebElement btnLogout;
 	
 	@FindBy(xpath = "//android.widget.Button[@text='OK']")
 	private ExtendedWebElement btnOK;
+	
+	@FindBy(id = "android:id/alertTitle")
+	private ExtendedWebElement logoutMsg;
 	
 	public MenuPage(WebDriver driver) {
 		super(driver);

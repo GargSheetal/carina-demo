@@ -11,9 +11,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import com.itextpdf.text.log.SysoCounter;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.android.CartItem;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.android.HomePage;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.CartPageBase;
+import com.saucelabs.mydemoapprn.mobile.gui.pages.common.DataProviderClass;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.HomePageBase;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.LoginPageBase;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.MenuPageBase;
@@ -30,30 +32,55 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 	@MethodOwner(owner = "sheetal")
 	public void testLoginAndLogout() {
 		HomePageBase homePage = new HomePage(getDriver());
+		//Asserting home page is opened
 		homePage.assertPageOpened();
 		MenuPageBase menu = homePage.clickBurgerMenu();
 		LoginPageBase loginPage = menu.clickLoginButton();
-		String expLoginMsg = "Select a username and password from the list below, or click on the usernames to automatically populate the username and password.";
-		String actLoginMsg = loginPage.getLoginMessage();
-		Assert.assertEquals(actLoginMsg, expLoginMsg, "Invalid Login Page message!");
+		loginPage.assertPageOpened();
+		Assert.assertEquals(loginPage.getPageTitle(), "Login", "Invalid Page Title!");
 		homePage = loginPage.performLogin();
 		homePage.assertPageOpened();
 		
 		// perform logout
 		menu = homePage.clickBurgerMenu();
 		menu.clickLogout();
-		String expLogoutMsg = "Are you sure you sure you want to logout?";
+		menu.clickLogoutOnFrame();
+		String expLogoutMsg = "You are successfully logged out.";
 		String actLogoutMsg = menu.getLogoutMsg();
 		Assert.assertEquals(actLogoutMsg, expLogoutMsg, "Invalid Logout message!");
-		menu.clickLogoutOnFrame();
 		loginPage = menu.clickOKBtn();
 		loginPage.assertPageOpened();
+	}
+	
+	@Test(dataProvider = "loginData", dataProviderClass = DataProviderClass.class)
+	@MethodOwner(owner = "sheetal")
+	public void testLoginDataDriven(String username, String password) {
+		HomePageBase homePage = new HomePage(getDriver());
+		//Asserting home page is opened
+		homePage.assertPageOpened();
+		System.out.println(homePage.getPageTitle());
+		MenuPageBase menu = homePage.clickBurgerMenu();
+		LoginPageBase loginPage = menu.clickLoginButton();
+		loginPage.assertPageOpened();
+		Assert.assertEquals(loginPage.getPageTitle(), "Login", "Invalid Page Title!");
+		loginPage.loginDataDriven(username, password);
+		
+		SoftAssert softAssert = new SoftAssert();
+		if(homePage.getPageTitle().equals("Products")) {
+			softAssert.assertTrue(true, "Login Successfull with Valid Credentials!");
+			LOGGER.info("Navigated to Home Page. Login Successfull with Valid Credentials : " + username + " | " + password);
+		} 
+		else if(loginPage.getUserLockedOutMsg().equalsIgnoreCase("Sorry, this user has been locked out.")) {
+			softAssert.assertTrue(false, "Login failed with Invalid Credentials!");
+			LOGGER.info("Negative Login TC PASS!! Login Failed for Invalid Credentials : " + username + " | " + password);
+		} 
 	}
 	
 	@Test()
 	@MethodOwner(owner = "sheetal")
 	public void testProductDetails() {
 		HomePageBase homePage = new HomePage(getDriver());
+		// Asserting home page is opened
 		homePage.assertPageOpened();
 		ProductPageBase productPage = homePage.selectProduct("Sauce Labs Backpack");
 		productPage.assertPageOpened();
@@ -75,13 +102,16 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		ProductPageBase productPage = homePage.selectProduct("Sauce Labs Backpack");
 		productPage.assertPageOpened();
 		productPage.clickAddToCart();
+		String cartSize1 = homePage.getCartSize();
+		LOGGER.info("Cart size : " + cartSize1);
+		Assert.assertEquals(cartSize1, "1", "Invalid Cart Size!");
 		getDriver().navigate().back();
 		productPage = homePage.selectProduct("Sauce Labs Bike Light");
 		productPage.clickAddToCart();
 		// asserting number of products in the cart
-		String cartSize = homePage.getCartSize();
-		LOGGER.info("Cart size : " + cartSize);
-		Assert.assertEquals(cartSize, "2", "Invalid Cart Size!");
+		String cartSize2 = homePage.getCartSize();
+		LOGGER.info("Cart size : " + cartSize2);
+		Assert.assertEquals(cartSize2, "2", "Invalid Cart Size!");
 		CartPageBase cartPage = homePage.clickCartIcon();
 		String totalItems = cartPage.getTotalItems();
 		String totalPrice = cartPage.getTotalPrice();

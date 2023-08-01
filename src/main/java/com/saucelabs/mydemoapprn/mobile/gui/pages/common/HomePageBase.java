@@ -11,6 +11,8 @@ public abstract class HomePageBase extends AbstractPage {
 		super(driver);
 	}
 	
+	public abstract String getPageTitle();
+	
 	public abstract MenuPageBase clickBurgerMenu();
 	
 	public abstract CartPageBase clickCartIcon();

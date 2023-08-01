@@ -88,18 +88,4 @@ public class HomePage extends HomePageBase {
 		return productsLink;
 	}
 	
-//	@Override
-//	public void verifyProductList() {
-//		for(int i = 0; i<productsLink.size(); i++) {
-//			String product = productsLink.get(i).getText();
-//			LOGGER.info("(" + (i + 1) + ") " + product);
-//			SoftAssert softAssert = new SoftAssert();
-//			softAssert.assertEquals(productsLink.get(0).getText(), "Sauce Labs Onesie", "Invalid product!");
-//			softAssert.assertEquals(productsLink.get(1).getText(), "Sauce Labs Bike Light", "Invalid product!");
-//			softAssert.assertEquals(productsLink.get(2).getText(), "Sauce Labs Bolt T-Shirt", "Invalid product!");
-//			softAssert.assertEquals(productsLink.get(3).getText(), "Test.allTheThings() T-Shirt (Red)", "Invalid product!");
-//			softAssert.assertEquals(productsLink.get(4).getText(), "Sauce Labs Backpack", "Invalid product!");
-//			softAssert.assertEquals(productsLink.get(5).getText(), "Sauce Labs Fleece Jacket", "Invalid product!");
-//		}
-//	}
 }

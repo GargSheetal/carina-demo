@@ -1,10 +1,7 @@
 package com.dollardays.gui.pages.desktop;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.util.Properties;
+import java.util.Optional;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dollardays.gui.pages.common.HomePageBase;
+import com.zebrunner.carina.utils.config.Configuration;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 
@@ -33,16 +31,21 @@ public class LoginPage extends AbstractUIObject {
 	}
 
 	public HomePageBase performLogin() {
-		Properties prop = new Properties();
-		try {
-			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
-			prop.load(inputStream);
-			inputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String username = prop.getProperty("username_dollardays");
-        String password = prop.getProperty("password_dollardays");
+//		Properties prop = new Properties();
+//		try {
+//			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
+//			prop.load(inputStream);
+//			inputStream.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		String username = prop.getProperty("username_dollardays");
+//      String password = prop.getProperty("password_dollardays");
+        
+        Optional<String> usernameOpt = Configuration.get("username_dollardays");
+        String username = usernameOpt.get();
+        Optional<String> passwordOpt = Configuration.get("password_dollardays");
+        String password = passwordOpt.get();
         assertElementPresent(txtUsername);
 		LOGGER.info("Entered username : " + username);
 		txtUsername.type(username);
@@ -54,23 +57,5 @@ public class LoginPage extends AbstractUIObject {
 		btnSignIn.click();
 		return new HomePage(getDriver());
 	}
-
-//	public void setUsername(String username) {
-//		assertElementPresent(txtUsername);
-//		LOGGER.info("Entered username : " + username);
-//		txtUsername.type(username);
-//	}
-//	
-//	public void setPassword(String password) {
-//		assertElementPresent(txtPassword);
-//		LOGGER.info("Entered password : " + password);
-//		txtPassword.type(password);
-//	}
-//	
-//	public HomePageBase clickSignIn() {
-//		assertElementPresent(btnSignIn);
-//		btnSignIn.click();
-//		return new HomePage(getDriver());
-//	}
 	
 }

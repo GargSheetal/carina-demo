@@ -1,10 +1,7 @@
 package com.saucedemo.gui.pages.desktop;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.util.Properties;
+import java.util.Optional;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.saucedemo.gui.pages.common.LoginPageBase;
 import com.saucedemo.gui.pages.common.HomePageBase;
+import com.zebrunner.carina.utils.config.Configuration;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
@@ -39,22 +37,26 @@ public class LoginPage extends LoginPageBase {
 	
 	@Override
 	public HomePageBase performLogin() {
-		Properties prop = new Properties();
-		try {
-			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
-			prop.load(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		Properties prop = new Properties();
+//		try {
+//			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
+//			prop.load(inputStream);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		String uname = prop.getProperty("username_saucedemo");
+//		String pwd = prop.getProperty("password_saucedemo");
+		Optional<String> usernameOpt = Configuration.get("username_saucedemo");
+		String username = usernameOpt.get();
 		
-		String uname = prop.getProperty("username_saucedemo");
-		String pwd = prop.getProperty("password_saucedemo");
-		LOGGER.info("Entering UserName : " + uname);
+		Optional<String> passwordOpt = Configuration.get("password_saucedemo");
+		String password = passwordOpt.get();
+		LOGGER.info("Entering UserName : " + username);
 		assertElementPresent(txtUserName);
-		txtUserName.type(uname);
-		LOGGER.info("Entering Password : " + pwd);
+		txtUserName.type(username);
+		LOGGER.info("Entering Password : " + password);
 		assertElementPresent(txtPassword);
-		txtPassword.type(pwd);
+		txtPassword.type(password);
 		btnLogin.click();
 		return initPage(getDriver(), HomePageBase.class);
 	}
