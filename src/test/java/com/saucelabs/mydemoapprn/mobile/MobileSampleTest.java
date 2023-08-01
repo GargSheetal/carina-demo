@@ -1,5 +1,7 @@
 package com.saucelabs.mydemoapprn.mobile;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,10 +10,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import com.itextpdf.text.log.SysoCounter;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.android.CartItem;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.android.HomePage;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.CartPageBase;
@@ -119,8 +119,8 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		LOGGER.info("Total number of items : " + totalItems + " | Total price : " + totalPrice + " | Total calculated price : $" + calculatedTotalPrice);
 		// Validating cart
 		SoftAssert softAssert = new SoftAssert();
-		softAssert.assertEquals(totalItems, "2");
-		softAssert.assertEquals(totalPrice, ("$" + calculatedTotalPrice));
+		Assert.assertEquals(totalItems, "2");
+		Assert.assertEquals(totalPrice, ("$" + calculatedTotalPrice));
 		
 		// Define the expected item names in a Set
         Set<String> expectedItemNames = new HashSet<>(Arrays.asList(
