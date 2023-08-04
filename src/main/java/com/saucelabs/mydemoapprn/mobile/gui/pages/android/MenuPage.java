@@ -37,7 +37,7 @@ public class MenuPage extends MenuPageBase implements IMobileUtils {
 	public LoginPageBase clickLoginButton() {
 		assertElementPresent(btnLogin);
 		btnLogin.click();
-		return new LoginPage(getDriver());
+		return initPage(getDriver(), LoginPageBase.class);
 	}
 	
 	public String getLogoutMsg() {

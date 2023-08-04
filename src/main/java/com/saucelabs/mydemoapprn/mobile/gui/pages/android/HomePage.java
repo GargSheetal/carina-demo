@@ -41,6 +41,12 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 	@FindBy(xpath = "//android.widget.ScrollView[@content-desc=\"product screen\"]/android.view.ViewGroup")
 	private ExtendedWebElement contentScreen;
 	
+	@FindBy(xpath = "//android.widget.TextView[@text='Sauce Labs Backpack']")
+	private ExtendedWebElement sauceLabsbackpackName;
+	
+	@FindBy(xpath = "(//android.widget.TextView[@content-desc=\"store item price\"])[1]")
+	private ExtendedWebElement sauceLabsbackpackPrice;
+	
 	public HomePage(WebDriver driver) {
 		super(driver);
 		setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
@@ -92,5 +98,13 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 		int startY = height / 2;
 		swipe(endX, startY, startX, startY, 1000);
 		return initPage(getDriver(), HomePageBase.class);
+	}
+	
+	public String readSauceLabsBackpackName() {
+		return sauceLabsbackpackName.getText();
+	}
+	
+	public String readSauceLabsBackpackPrice() {
+		return sauceLabsbackpackPrice.getText();
 	}
 }

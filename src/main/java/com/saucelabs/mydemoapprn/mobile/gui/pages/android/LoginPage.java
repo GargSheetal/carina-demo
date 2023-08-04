@@ -1,11 +1,5 @@
 package com.saucelabs.mydemoapprn.mobile.gui.pages.android;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Optional;
-import java.util.Properties;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -61,7 +55,7 @@ public class LoginPage extends LoginPageBase implements IMobileUtils{
 		txtPassword.type(password);
 		assertElementPresent(btnLogin);
 		btnLogin.click();
-		return new HomePage(getDriver());
+		return initPage(getDriver(), HomePageBase.class);
 	}
 	
 	public HomePageBase loginDataDriven(String username, String password) {
@@ -71,7 +65,7 @@ public class LoginPage extends LoginPageBase implements IMobileUtils{
 		txtPassword.type(password);
 		assertElementPresent(btnLogin);
 		btnLogin.click();
-		return new HomePage(getDriver());
+		return initPage(getDriver(), HomePageBase.class);
 	}
 
 }

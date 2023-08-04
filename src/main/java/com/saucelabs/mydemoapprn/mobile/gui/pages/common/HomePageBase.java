@@ -22,4 +22,9 @@ public abstract class HomePageBase extends AbstractPage {
 	public abstract ProductPageBase selectProduct(String product);
 	
 	public abstract HomePageBase goBack();
+	
+	public abstract String readSauceLabsBackpackName();
+	
+	public abstract String readSauceLabsBackpackPrice();
 }
+

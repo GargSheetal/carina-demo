@@ -34,7 +34,6 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		homePage.assertPageOpened();
 		MenuPageBase menu = homePage.clickBurgerMenu();
 		LoginPageBase loginPage = menu.clickLoginButton();
-		loginPage.assertPageOpened();
 		Assert.assertEquals(loginPage.getPageTitle(), "Login", "Invalid Page Title!");
 		homePage = loginPage.performLogin();
 		homePage.assertPageOpened();
@@ -93,13 +92,17 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
 		// Asserting home page is opened
 		homePage.assertPageOpened();
+		String productNameHomePage = homePage.readSauceLabsBackpackName();
+		String productPriceHomePage = homePage.readSauceLabsBackpackPrice();
 		ProductPageBase productPage = homePage.selectProduct("Sauce Labs Backpack");
 		productPage.assertPageOpened();
 		// Verify item specifications
+		String productNameProductPage = productPage.readProductName();
+		String productPriceProductPage = productPage.readProductPrice();
 		final String expectedDesc = "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.";
 		SoftAssert softAssert = new SoftAssert();
-		softAssert.assertEquals(productPage.readProductName(), "Sauce Labs Backpack", "Invalid Item name!");
-		softAssert.assertEquals(productPage.readProductPrice(), "$29.99", "Invalid Item price!");
+		softAssert.assertEquals(productNameHomePage, productNameProductPage, "Product Name mismatch!");
+		softAssert.assertEquals(productPriceHomePage, productPriceProductPage, "Product Price mismatch!");
 		productPage.swipeToProductDescription();
 		softAssert.assertEquals(productPage.readProductDescription(), expectedDesc, "Invalid Item description!");
 		softAssert.assertAll();
@@ -144,5 +147,4 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
             Assert.assertTrue(expectedItemNames.contains(itemName), "Invalid Item Name: " + itemName);
 		}
 	}
-
 }

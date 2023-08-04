@@ -17,8 +17,7 @@ import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 @DeviceType(pageType = Type.IOS_PHONE, parentClass = LoginPageBase.class)
 public class LoginPage extends LoginPageBase implements IMobileUtils{
 
-	@FindBy(xpath  = "**/XCUIElementTypeStaticText[`label == \"Login\"`]")
-	@ClassChain
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeStaticText[`label == \"Login\"`]")
 	private ExtendedWebElement title;
 	
 	@ExtendedFindBy(accessibilityId  = "Username input field")

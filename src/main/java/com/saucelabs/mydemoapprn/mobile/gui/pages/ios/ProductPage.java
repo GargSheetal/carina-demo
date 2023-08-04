@@ -26,8 +26,7 @@ public class ProductPage extends ProductPageBase implements IMobileUtils {
 	@ExtendedFindBy(accessibilityId = "Add To Cart button")
     private ExtendedWebElement btnAddToCart;
 	
-	@FindBy(xpath = "**/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther")
-	@ClassChain
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther")
     private ExtendedWebElement container;
 	
 	public ProductPage(WebDriver driver) {

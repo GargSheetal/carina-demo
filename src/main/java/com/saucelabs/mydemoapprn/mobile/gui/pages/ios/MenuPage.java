@@ -20,15 +20,13 @@ public class MenuPage extends MenuPageBase implements IMobileUtils {
 	@ExtendedFindBy(accessibilityId = "menu item log out")
 	private ExtendedWebElement logout;
 	
-	@FindBy(xpath = "**/XCUIElementTypeButton[`label == \"Log Out\"`]")
-	@ClassChain
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`label == \"Log Out\"`]")
 	private ExtendedWebElement btnLogout;
 	
 	@ExtendedFindBy(accessibilityId = "OK")
 	private ExtendedWebElement btnOK;
 	
-	@FindBy(xpath = "**/XCUIElementTypeStaticText[`label == \"You are successfully logged out.\"`]")
-	@ClassChain
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeStaticText[`label == \"You are successfully logged out.\"`]")
 	private ExtendedWebElement logoutMsg;
 	
 	public MenuPage(WebDriver driver) {

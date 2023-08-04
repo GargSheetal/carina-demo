@@ -27,8 +27,7 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 	@ExtendedFindBy(accessibilityId  = "tab bar option menu")
 	private ExtendedWebElement menu;
 	
-	@FindBy(xpath = "**/XCUIElementTypeStaticText[`label == \"Products\"`]")
-	@ClassChain
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeStaticText[`label == \"Products\"`]")
 	private ExtendedWebElement title;
 	
 	@ExtendedFindBy(accessibilityId = "tab bar option cart")
@@ -40,6 +39,11 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 	@FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"store item text\"]")
 	private List<ExtendedWebElement> productsLink;
 	
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeStaticText[`label == \"Sauce Labs Backpack\"`]")
+	private ExtendedWebElement sauceLabsBackpackName;
+	
+	@ExtendedFindBy(iosClassChain = "**/XCUIElementTypeStaticText[`label == \"$29.99\"`]")
+	private ExtendedWebElement sauceLabsBackpackPrice;
 	
 	public HomePage(WebDriver driver) {
 		super(driver);
@@ -83,5 +87,15 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 	public HomePageBase goBack() {
 		btnBack.click();
 		return initPage(getDriver(), HomePageBase.class);
+	}
+
+	@Override
+	public String readSauceLabsBackpackName() {
+		return sauceLabsBackpackName.getText();
+	}
+
+	@Override
+	public String readSauceLabsBackpackPrice() {
+		return sauceLabsBackpackPrice.getText();
 	}
 }
