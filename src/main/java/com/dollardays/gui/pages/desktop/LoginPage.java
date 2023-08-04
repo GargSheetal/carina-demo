@@ -31,25 +31,11 @@ public class LoginPage extends AbstractUIObject {
 	}
 
 	public HomePageBase performLogin() {
-//		Properties prop = new Properties();
-//		try {
-//			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
-//			prop.load(inputStream);
-//			inputStream.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		String username = prop.getProperty("username_dollardays");
-//      String password = prop.getProperty("password_dollardays");
-        
-        Optional<String> usernameOpt = Configuration.get("username_dollardays");
-        String username = usernameOpt.get();
-        Optional<String> passwordOpt = Configuration.get("password_dollardays");
-        String password = passwordOpt.get();
+		String username = Configuration.getRequired("username_dollardays");
+		String password = Configuration.getRequired("password_dollardays");
         assertElementPresent(txtUsername);
 		LOGGER.info("Entered username : " + username);
 		txtUsername.type(username);
-		
 		assertElementPresent(txtPassword);
 		LOGGER.info("Entered password : " + password);
 		txtPassword.type(password);

@@ -37,20 +37,8 @@ public class LoginPage extends LoginPageBase {
 	
 	@Override
 	public HomePageBase performLogin() {
-//		Properties prop = new Properties();
-//		try {
-//			FileInputStream inputStream = new FileInputStream(new File("src/main/resources/_config.properties"));
-//			prop.load(inputStream);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		String uname = prop.getProperty("username_saucedemo");
-//		String pwd = prop.getProperty("password_saucedemo");
-		Optional<String> usernameOpt = Configuration.get("username_saucedemo");
-		String username = usernameOpt.get();
-		
-		Optional<String> passwordOpt = Configuration.get("password_saucedemo");
-		String password = passwordOpt.get();
+		String username = Configuration.getRequired("username_saucedemo");
+		String password = Configuration.getRequired("password_saucedemo");
 		LOGGER.info("Entering UserName : " + username);
 		assertElementPresent(txtUserName);
 		txtUserName.type(username);

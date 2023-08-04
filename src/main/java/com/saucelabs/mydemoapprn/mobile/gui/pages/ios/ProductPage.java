@@ -1,4 +1,4 @@
-package com.saucelabs.mydemoapprn.mobile.gui.pages.android;
+package com.saucelabs.mydemoapprn.mobile.gui.pages.ios;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -8,12 +8,13 @@ import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
+import com.zebrunner.carina.webdriver.decorator.annotations.ClassChain;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 
-@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ProductPageBase.class)
+@DeviceType(pageType = DeviceType.Type.IOS_PHONE, parentClass = ProductPageBase.class)
 public class ProductPage extends ProductPageBase implements IMobileUtils {
 	
-	@FindBy(xpath = "//android.view.ViewGroup[@content-desc=\"container header\"]/android.widget.TextView")
+	@ExtendedFindBy(accessibilityId = "container header")
     private ExtendedWebElement productName;
 	
 	@ExtendedFindBy(accessibilityId = "product description")
@@ -25,7 +26,8 @@ public class ProductPage extends ProductPageBase implements IMobileUtils {
 	@ExtendedFindBy(accessibilityId = "Add To Cart button")
     private ExtendedWebElement btnAddToCart;
 	
-	@ExtendedFindBy(accessibilityId = "product screen")
+	@FindBy(xpath = "**/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther")
+	@ClassChain
     private ExtendedWebElement container;
 	
 	public ProductPage(WebDriver driver) {

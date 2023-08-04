@@ -1,4 +1,4 @@
-package com.saucelabs.mydemoapprn.mobile.gui.pages.android;
+package com.saucelabs.mydemoapprn.mobile.gui.pages.ios;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -16,30 +16,30 @@ import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
+import com.zebrunner.carina.webdriver.decorator.annotations.ClassChain;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 
-@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = HomePageBase.class)
+@DeviceType(pageType = DeviceType.Type.IOS_PHONE, parentClass = HomePageBase.class)
 public class HomePage extends HomePageBase implements IMobileUtils{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	
-	@FindBy(css = ".android.widget.ImageView")
-	private ExtendedWebElement burgerMenu;
+	@ExtendedFindBy(accessibilityId  = "tab bar option menu")
+	private ExtendedWebElement menu;
 	
-	@FindBy(className = "android.widget.TextView")
+	@FindBy(xpath = "**/XCUIElementTypeStaticText[`label == \"Products\"`]")
+	@ClassChain
 	private ExtendedWebElement title;
 	
-	@ExtendedFindBy(accessibilityId = "cart badge")
-	private ExtendedWebElement cartIcon;
+	@ExtendedFindBy(accessibilityId = "tab bar option cart")
+	private ExtendedWebElement cart;
 	
-	@FindBy(xpath = "//android.widget.TextView[@index='1']")
-	private ExtendedWebElement cartSize;
+	@ExtendedFindBy(accessibilityId = "navigation back button")
+	private ExtendedWebElement btnBack;
 	
-	@FindBy(xpath = "//android.widget.TextView[@content-desc='store item text']")
+	@FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"store item text\"]")
 	private List<ExtendedWebElement> productsLink;
 	
-	@FindBy(xpath = "//android.widget.ScrollView[@content-desc=\"product screen\"]/android.view.ViewGroup")
-	private ExtendedWebElement contentScreen;
 	
 	public HomePage(WebDriver driver) {
 		super(driver);
@@ -53,7 +53,7 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 
 	@Override
 	public MenuPageBase clickBurgerMenu() {
-		burgerMenu.click();
+		menu.click();
 		return new MenuPage(getDriver());
 	}
 
@@ -71,26 +71,17 @@ public class HomePage extends HomePageBase implements IMobileUtils{
 	}
 
 	public CartPageBase clickCartIcon() {
-		assertElementPresent(cartIcon);
-		cartIcon.click();
+		assertElementPresent(cart);
+		cart.click();
 		return initPage(getDriver(), CartPageBase.class);
 	}
 
 	public String getCartSize() {
-		assertElementPresent(cartSize);
-		return cartSize.getText();
+		return cart.getAttribute("label");
 	}
-
-	@Override
-	public HomePageBase goBack() {		
-		// Get the device screen size
-		int width = driver.manage().window().getSize().getWidth();
-		int height = driver.manage().window().getSize().getHeight();
-		// Calculate the start and end points for the swipe right action
-		int startX = (int) (width * 0.5);
-		int endX = (int) (width * 1);
-		int startY = height / 2;
-		swipe(endX, startY, startX, startY, 1000);
+	
+	public HomePageBase goBack() {
+		btnBack.click();
 		return initPage(getDriver(), HomePageBase.class);
 	}
 }

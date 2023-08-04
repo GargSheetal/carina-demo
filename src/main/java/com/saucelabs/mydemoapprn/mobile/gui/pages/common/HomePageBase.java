@@ -20,4 +20,6 @@ public abstract class HomePageBase extends AbstractPage {
 	public abstract String getCartSize();
 	
 	public abstract ProductPageBase selectProduct(String product);
+	
+	public abstract HomePageBase goBack();
 }

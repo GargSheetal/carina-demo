@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 
-import com.saucelabs.mydemoapprn.mobile.gui.pages.android.CartItem;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 
 public abstract class CartPageBase extends AbstractPage {
@@ -21,7 +20,6 @@ public abstract class CartPageBase extends AbstractPage {
 	
 	public abstract LoginPageBase clickProceedToCheckout();
 	
-	public abstract List<CartItem> getCartItems();
-	
+	public abstract List<? extends CartItemBase> getCartItems();
 	
 }

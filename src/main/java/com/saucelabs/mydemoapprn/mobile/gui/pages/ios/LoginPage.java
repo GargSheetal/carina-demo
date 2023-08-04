@@ -1,10 +1,4 @@
-package com.saucelabs.mydemoapprn.mobile.gui.pages.android;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Optional;
-import java.util.Properties;
+package com.saucelabs.mydemoapprn.mobile.gui.pages.ios;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -17,12 +11,14 @@ import com.zebrunner.carina.utils.factory.DeviceType.Type;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
+import com.zebrunner.carina.webdriver.decorator.annotations.ClassChain;
 import com.zebrunner.carina.webdriver.locator.ExtendedFindBy;
 
-@DeviceType(pageType = Type.ANDROID_PHONE, parentClass = LoginPageBase.class)
+@DeviceType(pageType = Type.IOS_PHONE, parentClass = LoginPageBase.class)
 public class LoginPage extends LoginPageBase implements IMobileUtils{
 
-	@FindBy(css  = ".android.widget.TextView")
+	@FindBy(xpath  = "**/XCUIElementTypeStaticText[`label == \"Login\"`]")
+	@ClassChain
 	private ExtendedWebElement title;
 	
 	@ExtendedFindBy(accessibilityId  = "Username input field")
@@ -34,7 +30,7 @@ public class LoginPage extends LoginPageBase implements IMobileUtils{
 	@ExtendedFindBy(accessibilityId = "Login button")
 	private ExtendedWebElement btnLogin;
 	
-	@FindBy(xpath = "//android.widget.TextView[@text='Sorry, this user has been locked out.']")
+	@ExtendedFindBy(accessibilityId = "Sorry, this user has been locked out.")
 	private ExtendedWebElement userLockedOutMsg;
 	
 	public LoginPage(WebDriver driver) {

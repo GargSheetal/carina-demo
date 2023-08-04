@@ -12,6 +12,8 @@ import com.zebrunner.carina.api.apitools.validation.JsonCompareKeywords;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 
+import io.restassured.path.json.JsonPath;
+
 public class DummyJsonApiSampleTest implements IAbstractTest {
 	
 	@Test()
@@ -37,7 +39,8 @@ public class DummyJsonApiSampleTest implements IAbstractTest {
 	public void testCreateProduct() {
 		PostProductMethod postProductMethod = new PostProductMethod();
 		postProductMethod.setProperties("api/products/product.properties");
-		postProductMethod.callAPIExpectSuccess();
+		JsonPath rs = postProductMethod.callAPIExpectSuccess().jsonPath();
+		System.out.println("Price : " + rs.getString("price"));
 		postProductMethod.validateResponse();
 	}
 	

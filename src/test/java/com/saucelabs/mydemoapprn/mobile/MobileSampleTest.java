@@ -1,7 +1,6 @@
 package com.saucelabs.mydemoapprn.mobile;
 
 import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -12,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
-import com.saucelabs.mydemoapprn.mobile.gui.pages.android.CartItem;
-import com.saucelabs.mydemoapprn.mobile.gui.pages.android.HomePage;
+import com.saucelabs.mydemoapprn.mobile.gui.pages.common.CartItemBase;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.CartPageBase;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.DataProviderClass;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.HomePageBase;
@@ -31,7 +29,7 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 	@Test()
 	@MethodOwner(owner = "sheetal")
 	public void testLoginAndLogout() {
-		HomePageBase homePage = new HomePage(getDriver());
+		HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
 		//Asserting home page is opened
 		homePage.assertPageOpened();
 		MenuPageBase menu = homePage.clickBurgerMenu();
@@ -54,32 +52,45 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 	
 	@Test(dataProvider = "loginData", dataProviderClass = DataProviderClass.class)
 	@MethodOwner(owner = "sheetal")
-	public void testLoginDataDriven(String username, String password) {
-		HomePageBase homePage = new HomePage(getDriver());
+	public void testLoginDataDriven(String username, String password, Boolean expectedResult) {
+		HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
 		//Asserting home page is opened
 		homePage.assertPageOpened();
-		System.out.println(homePage.getPageTitle());
 		MenuPageBase menu = homePage.clickBurgerMenu();
 		LoginPageBase loginPage = menu.clickLoginButton();
 		loginPage.assertPageOpened();
 		Assert.assertEquals(loginPage.getPageTitle(), "Login", "Invalid Page Title!");
 		loginPage.loginDataDriven(username, password);
-		
 		SoftAssert softAssert = new SoftAssert();
-		if(homePage.getPageTitle().equals("Products")) {
-			softAssert.assertTrue(true, "Login Successfull with Valid Credentials!");
-			LOGGER.info("Navigated to Home Page. Login Successfull with Valid Credentials : " + username + " | " + password);
-		} 
-		else if(loginPage.getUserLockedOutMsg().equalsIgnoreCase("Sorry, this user has been locked out.")) {
-			softAssert.assertTrue(false, "Login failed with Invalid Credentials!");
-			LOGGER.info("Negative Login TC PASS!! Login Failed for Invalid Credentials : " + username + " | " + password);
-		} 
+		
+		if(expectedResult.equals(true)) {
+			Boolean actualResult = homePage.getPageTitle().equals("Products");
+			if(actualResult.equals(true)) {
+				softAssert.assertTrue(true, "Login Successful with Valid Credentials!");
+				LOGGER.info("[VALID-PASS] Navigated to Home Page. Login Successfull with Valid Credentials : " + username);
+			} 
+			else {
+				softAssert.assertTrue(false, "Login Unsuccessful with Valid Credentials!");
+				LOGGER.info("[VALID-FAIL] Login Unsuccessful with Valid Credentials : " + username );
+			}
+		}
+		else{
+			Boolean actualResult = loginPage.getUserLockedOutMsg().equalsIgnoreCase("Sorry, this user has been locked out.");
+			if(actualResult.equals(true)) {
+				softAssert.assertTrue(true, "Login failed with Invalid Credentials!");
+				LOGGER.info("[INVALID-PASS] Login Failed for Invalid Credentials : " + username);
+			} 
+			else {
+				softAssert.assertTrue(false, "Login did not fail with Invalid Credentials!");
+				LOGGER.info("[INVALID-FAIL] Login did not fail with Invalid Credentials : " + username);
+			} 
+		}
 	}
 	
 	@Test()
 	@MethodOwner(owner = "sheetal")
 	public void testProductDetails() {
-		HomePageBase homePage = new HomePage(getDriver());
+		HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
 		// Asserting home page is opened
 		homePage.assertPageOpened();
 		ProductPageBase productPage = homePage.selectProduct("Sauce Labs Backpack");
@@ -97,7 +108,7 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 	@Test()
 	@MethodOwner(owner = "sheetal")
 	public void testValidateCart() {
-		HomePageBase homePage = new HomePage(getDriver());
+		HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
 		homePage.assertPageOpened();
 		ProductPageBase productPage = homePage.selectProduct("Sauce Labs Backpack");
 		productPage.assertPageOpened();
@@ -105,7 +116,7 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		String cartSize1 = homePage.getCartSize();
 		LOGGER.info("Cart size : " + cartSize1);
 		Assert.assertEquals(cartSize1, "1", "Invalid Cart Size!");
-		getDriver().navigate().back();
+		homePage.goBack();
 		productPage = homePage.selectProduct("Sauce Labs Bike Light");
 		productPage.clickAddToCart();
 		// asserting number of products in the cart
@@ -119,15 +130,15 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		LOGGER.info("Total number of items : " + totalItems + " | Total price : " + totalPrice + " | Total calculated price : $" + calculatedTotalPrice);
 		// Validating cart
 		SoftAssert softAssert = new SoftAssert();
-		Assert.assertEquals(totalItems, "2");
-		Assert.assertEquals(totalPrice, ("$" + calculatedTotalPrice));
+		softAssert.assertEquals(totalItems, "2 items", "Invalid item count");
+		softAssert.assertEquals(totalPrice, ("$" + calculatedTotalPrice), "Total price Mismatch!");
 		
 		// Define the expected item names in a Set
         Set<String> expectedItemNames = new HashSet<>(Arrays.asList(
             "Sauce Labs Backpack",
             "Sauce Labs Bike Light"
         ));
-		for(CartItem cartItem: cartPage.getCartItems()) {
+		for(CartItemBase cartItem: cartPage.getCartItems()) {
 			String itemName = cartItem.readItemName();
 			LOGGER.info("Item Name: " + itemName);
             Assert.assertTrue(expectedItemNames.contains(itemName), "Invalid Item Name: " + itemName);
