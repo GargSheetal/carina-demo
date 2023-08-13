@@ -13,6 +13,7 @@ import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 
 public class DummyJsonApiSampleTest implements IAbstractTest {
 	
@@ -29,7 +30,13 @@ public class DummyJsonApiSampleTest implements IAbstractTest {
 	@MethodOwner(owner = "sheetal")
 	public void testGetSingleProduct() {
 		GetSingleProductMethod getSingleProductMethod = new GetSingleProductMethod();
-		getSingleProductMethod.callAPIExpectSuccess();
+		Response response = getSingleProductMethod.callAPIExpectSuccess();
+		String responseBody = response.getBody().asString();
+		JsonPath jsonPath = new JsonPath(responseBody);
+		String title = jsonPath.get("title");
+	//	String id = jsonPath.getString("id");
+		int id = jsonPath.getInt("id");
+		System.out.println("Properties of the product - Title : " + title + " | Id : " + id);
 		getSingleProductMethod.validateResponse(JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
 		getSingleProductMethod.validateResponseAgainstSchema("api/products/_get/rs_singleproduct.schema");
 	}

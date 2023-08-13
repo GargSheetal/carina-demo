@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.HomePageBase;
 import com.saucelabs.mydemoapprn.mobile.gui.pages.common.LoginPageBase;
 import com.zebrunner.carina.utils.config.Configuration;
+import com.zebrunner.carina.utils.config.Configuration.Parameter;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.utils.factory.DeviceType.Type;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;

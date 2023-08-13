@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import com.saucedemo.gui.pages.common.LoginPageBase;
 import com.saucedemo.gui.pages.common.HomePageBase;
+import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.utils.config.Configuration;
+import com.zebrunner.carina.utils.config.Configuration.Parameter;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
@@ -37,7 +39,10 @@ public class LoginPage extends LoginPageBase {
 	
 	@Override
 	public HomePageBase performLogin() {
-		String username = Configuration.getRequired("username_saucedemo");
+		// method 1 to get property from config file
+		String username = R.CONFIG.get("username_saucedemo");
+		// method 2 to get property from config file
+	//	String username = Configuration.getRequired("username_saucedemo");
 		String password = Configuration.getRequired("password_saucedemo");
 		LOGGER.info("Entering UserName : " + username);
 		assertElementPresent(txtUserName);

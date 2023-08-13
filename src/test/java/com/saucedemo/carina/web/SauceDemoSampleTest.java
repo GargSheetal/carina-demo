@@ -5,6 +5,8 @@ import org.testng.AssertJUnit;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -22,6 +24,8 @@ import com.saucedemo.gui.pages.desktop.HomePage;
 import com.saucedemo.gui.pages.desktop.CartItem;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
+import com.zebrunner.carina.utils.config.Configuration;
+import com.zebrunner.carina.utils.config.Configuration.Parameter;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 
 public class SauceDemoSampleTest implements IAbstractTest {
@@ -38,7 +42,6 @@ public class SauceDemoSampleTest implements IAbstractTest {
 		HomePageBase homePage = loginPage.performLogin();
 		// Asserting products page is opened
 		homePage.assertPageOpened();
-		
 		loginPage = homePage.getHeaderMenu().clickLogout();
 		//  Asserting home page after logout
 		loginPage.assertPageOpened();

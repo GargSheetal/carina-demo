@@ -135,7 +135,7 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 		SoftAssert softAssert = new SoftAssert();
 		softAssert.assertEquals(totalItems, "2 items", "Invalid item count");
 		softAssert.assertEquals(totalPrice, ("$" + calculatedTotalPrice), "Total price Mismatch!");
-		
+		softAssert.assertAll();
 		// Define the expected item names in a Set
         Set<String> expectedItemNames = new HashSet<>(Arrays.asList(
             "Sauce Labs Backpack",
